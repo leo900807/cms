@@ -43,7 +43,7 @@ class Cpp11Gpp(CompiledLanguage):
     @property
     def header_extensions(self):
         """See Language.source_extensions."""
-        return [".h"]
+        return [".h", ".hpp"]
 
     @property
     def object_extensions(self):

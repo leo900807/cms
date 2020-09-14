@@ -1,4 +1,5 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 # Programming contest management system
 # Copyright © 2017 Kiarash Golezardi <kiarashgolezardi@gmail.com>
@@ -18,14 +19,24 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
+from future.builtins.disabled import *  # noqa
+from future.builtins import *  # noqa
+
+import io
 import json
 import logging
 import os
 import re
 import subprocess
+
 from datetime import timedelta
 
 from cms.db import Task, Dataset, Manager, Testcase, Attachment, Statement
+
 from .base_loader import TaskLoader
 
 
@@ -112,8 +123,8 @@ class TpsTaskLoader(TaskLoader):
         json_src = os.path.join(self.path, 'problem.json')
         if not os.path.exists(json_src):
             logger.critical('No task found.')
-            raise OSError('No task found at path %s' % json_src)
-        with open(json_src, 'rt', encoding='utf-8') as json_file:
+            raise IOError('No task found at path %s' % json_src)
+        with io.open(json_src, 'rt', encoding='utf-8') as json_file:
             data = json.load(json_file)
 
         name = data['code']
@@ -247,7 +258,7 @@ class TpsTaskLoader(TaskLoader):
         args["task_type_parameters"] = \
             self._get_task_type_parameters(
                 data, data['task_type'], evaluation_param)
-
+'''
         # Graders
         graders_dir = os.path.join(self.path, 'graders')
 
@@ -313,7 +324,7 @@ class TpsTaskLoader(TaskLoader):
             testcase = Testcase(codename, True,
                                 input_digest, output_digest)
             args["testcases"][codename] = testcase
-
+'''
         # Score Type
         subtasks_dir = os.path.join(self.path, 'subtasks')
         if not os.path.exists(subtasks_dir):
@@ -333,8 +344,8 @@ class TpsTaskLoader(TaskLoader):
             add_optional_name = False
             for subtask in subtasks:
                 subtask_no += 1
-                with open(os.path.join(subtasks_dir, subtask), 'rt',
-                          encoding='utf-8') as subtask_json:
+                with io.open(os.path.join(subtasks_dir, subtask), 'rt',
+                             encoding='utf-8') as subtask_json:
                     subtask_data = json.load(subtask_json)
                     score = int(subtask_data["score"])
                     testcases = "|".join(

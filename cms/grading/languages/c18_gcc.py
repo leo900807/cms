@@ -29,10 +29,10 @@ from future.builtins import *  # noqa
 from cms.grading import CompiledLanguage
 
 
-__all__ = ["C11Gcc"]
+__all__ = ["C18Gcc"]
 
 
-class C11Gcc(CompiledLanguage):
+class C18Gcc(CompiledLanguage):
     """This defines the C programming language, compiled with gcc (the
     version available on the system) using the C11 standard.
 
@@ -41,7 +41,7 @@ class C11Gcc(CompiledLanguage):
     @property
     def name(self):
         """See Language.name."""
-        return "C11 / gcc"
+        return "C18 / gcc"
 
     @property
     def source_extensions(self):
@@ -65,7 +65,7 @@ class C11Gcc(CompiledLanguage):
         command = ["/usr/bin/gcc"]
         if for_evaluation:
             command += ["-DEVAL"]
-        command += ["-std=gnu11", "-O2", "-pipe", "-static",
+        command += ["-std=gnu18", "-O2", "-pipe", "-static",
                     "-s", "-o", executable_filename]
         command += source_filenames
         command += ["-lm"]
