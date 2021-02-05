@@ -17,7 +17,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-"""C++ programming language definition."""
+"""C programming language definition."""
 
 from __future__ import absolute_import
 from __future__ import division
@@ -29,29 +29,29 @@ from future.builtins import *  # noqa
 from cms.grading import CompiledLanguage
 
 
-__all__ = ["Cpp11Gpp"]
+__all__ = ["C18Gcc"]
 
 
-class Cpp11Gpp(CompiledLanguage):
-    """This defines the C++ programming language, compiled with g++ (the
-    version available on the system) using the C++11 standard.
+class C18Gcc(CompiledLanguage):
+    """This defines the C programming language, compiled with gcc (the
+    version available on the system) using the C18 standard.
 
     """
 
     @property
     def name(self):
         """See Language.name."""
-        return "C++11 / g++"
+        return "C18 / gcc"
 
     @property
     def source_extensions(self):
         """See Language.source_extensions."""
-        return [".cpp", ".cc", ".cxx", ".c++", ".C"]
+        return [".c"]
 
     @property
     def header_extensions(self):
         """See Language.source_extensions."""
-        return [".h", ".hpp"]
+        return [".h"]
 
     @property
     def object_extensions(self):
@@ -62,10 +62,11 @@ class Cpp11Gpp(CompiledLanguage):
                                  source_filenames, executable_filename,
                                  for_evaluation=True):
         """See Language.get_compilation_commands."""
-        command = ["/usr/bin/g++"]
+        command = ["/usr/bin/gcc"]
         if for_evaluation:
             command += ["-DEVAL"]
-        command += ["-std=gnu++11", "-O2", "-pipe", "-static",
+        command += ["-std=gnu18", "-O2", "-pipe", "-static",
                     "-s", "-o", executable_filename]
         command += source_filenames
+        command += ["-lm"]
         return [command]

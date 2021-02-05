@@ -29,19 +29,19 @@ from future.builtins import *  # noqa
 from cms.grading import CompiledLanguage
 
 
-__all__ = ["Cpp11Gpp"]
+__all__ = ["Cpp14Gpp"]
 
 
-class Cpp11Gpp(CompiledLanguage):
+class Cpp14Gpp(CompiledLanguage):
     """This defines the C++ programming language, compiled with g++ (the
-    version available on the system) using the C++11 standard.
+    version available on the system) using the C++14 standard.
 
     """
 
     @property
     def name(self):
         """See Language.name."""
-        return "C++11 / g++"
+        return "C++14 / g++"
 
     @property
     def source_extensions(self):
@@ -65,7 +65,7 @@ class Cpp11Gpp(CompiledLanguage):
         command = ["/usr/bin/g++"]
         if for_evaluation:
             command += ["-DEVAL"]
-        command += ["-std=gnu++11", "-O2", "-pipe", "-static",
+        command += ["-std=gnu++14", "-O2", "-pipe", "-static",
                     "-s", "-o", executable_filename]
         command += source_filenames
         return [command]
