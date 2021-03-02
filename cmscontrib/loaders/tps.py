@@ -345,9 +345,10 @@ class TpsTaskLoader(TaskLoader):
             output_digest = self.file_cacher.put_file_from_path(
                 outfile,
                 "Output %s for task %s" % (codename, name))
-            testcase = Testcase(codename, True,
-                                input_digest, output_digest)
-            args["testcases"][codename] = testcase
+            if codename.split('-')[0] != '0':   # We don't need sample testcase in CMS
+                testcase = Testcase(codename, True,
+                                    input_digest, output_digest)
+                args["testcases"][codename] = testcase
 
         # Score Type
         subtasks_json_src = os.path.join(self.path, 'subtasks.json')
@@ -380,16 +381,15 @@ class TpsTaskLoader(TaskLoader):
                 subtask_no += 1
                 score = int(subtask_data["score"])
                 if use_mapping:
-                    testcases = "|".join(
-                        re.escape(testcase)
-                        for testcase in mapping_data[subtask]
-                    )
+                    codenames = sorted(list(set('^' + testcase.split('-')[0] + '\\-' for testcase in mapping_data[subtask])))
+                    testcases = "|".join(codenames)
                     if testcases == '':
                         testcases = '|NO_TESTCASES_AVAILABLE'
                 else:
                     testcases = subtask_data["regex"]
                 optional_name = "Subtask %d" % subtask_no
                 if subtask_no == 0 and score == 0:
+                    continue   # We don't need sample testcase in CMS
                     optional_name = "Samples"
                 if add_optional_name:
                     parsed_data.append([score, testcases, optional_name])
