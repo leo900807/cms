@@ -1,4 +1,5 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 # Contest Management System - http://cms-dev.github.io/
 # Copyright © 2016 Stefano Maggiolo <s.maggiolo@gmail.com>
@@ -18,6 +19,13 @@
 
 """C++ programming language definition."""
 
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
+from future.builtins.disabled import *  # noqa
+from future.builtins import *  # noqa
+
 from cms.grading import CompiledLanguage
 
 
@@ -27,7 +35,6 @@ __all__ = ["Cpp11Gpp"]
 class Cpp11Gpp(CompiledLanguage):
     """This defines the C++ programming language, compiled with g++ (the
     version available on the system) using the C++11 standard.
-
     """
 
     @property

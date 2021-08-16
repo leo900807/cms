@@ -34,8 +34,7 @@ __all__ = ["C18Gcc"]
 
 class C18Gcc(CompiledLanguage):
     """This defines the C programming language, compiled with gcc (the
-    version available on the system) using the C11 standard.
-
+    version available on the system) using the C18 standard.
     """
 
     @property

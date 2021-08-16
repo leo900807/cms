@@ -17,7 +17,7 @@
             <label for="new_subject">Subject</label>
             <input type="text" name="subject" id="new_subject" style="width: 100%" list="task_names_list" autocomplete="off">
             <datalist id="task_names_list">
-              <option value="General">
+	          <option value="General">
               {% for task in contest.tasks %}
               <option value="{{ task.name }}">
               {% endfor %}

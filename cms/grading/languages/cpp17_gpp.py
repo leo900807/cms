@@ -34,8 +34,7 @@ __all__ = ["Cpp17Gpp"]
 
 class Cpp17Gpp(CompiledLanguage):
     """This defines the C++ programming language, compiled with g++ (the
-    version available on the system) using the C++11 standard.
-
+    version available on the system) using the C++17 standard.
     """
 
     @property
