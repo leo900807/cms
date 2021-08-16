@@ -85,7 +85,7 @@ class TpsTaskLoader(TaskLoader):
                 task_type_parameters[par_output] = ''
             if par_user_managers not in task_type_parameters:
                 pas_grader = os.path.join(
-                    self.path, 'graders', 'graderlib.pas')
+                    self.path, 'grader', 'graderlib.pas')
                 user_managers = ('['
                                  + '\\"grader.cpp\\"' + ', '
                                  + '\\"grader.java\\"' + ', '
@@ -158,14 +158,22 @@ class TpsTaskLoader(TaskLoader):
         # Attachments
         if get_statement:
             args["attachments"] = dict()
-            attachments_dir = os.path.join(self.path, 'attachments')
-            if os.path.exists(attachments_dir):
+            attachments_path = os.path.join(self.path, name + '.zip')
+            if os.path.exists(attachments_path):
                 logger.info("Attachments found")
+                filename = os.path.basename(attachments_path)
+                digest = self.file_cacher.put_file_from_path(
+                    attachments_path,
+                    "Attachment %s for task %s" % (filename, name))
+                args["attachments"][filename] = Attachment(filename, digest)
+
+                '''
                 for filename in os.listdir(attachments_dir):
                     digest = self.file_cacher.put_file_from_path(
                         os.path.join(attachments_dir, filename),
                         "Attachment %s for task %s" % (filename, name))
                     args["attachments"][filename] = Attachment(filename, digest)
+                '''
 
         data["type"] = \
             data["type"][0].upper() + data["type"][1:]
@@ -264,7 +272,7 @@ class TpsTaskLoader(TaskLoader):
             logger.info("Checker found, compiling")
             checker_exe = os.path.join(checker_dir, "checker")
             subprocess.call([
-                "g++", "-x", "c++", "-std=gnu++14", "-O2", "-static",
+                "g++", "-x", "c++", "-std=gnu++14", "-O2", "-static", "-DCMS",
                 "-o", checker_exe, checker_src
             ])
             digest = self.file_cacher.put_file_from_path(
@@ -284,7 +292,7 @@ class TpsTaskLoader(TaskLoader):
                 data, data['type'], evaluation_param)
 
         # Graders
-        graders_dir = os.path.join(self.path, 'graders')
+        graders_dir = os.path.join(self.path, 'grader')
 
         if data['type'] == 'TwoSteps':
             pas_manager = name + 'lib.pas'
@@ -294,19 +302,27 @@ class TpsTaskLoader(TaskLoader):
                     ''.encode('utf-8'), 'Pascal manager for task %s' % name)
                 args["managers"][pas_manager] = Manager(pas_manager, digest)
 
+        def get_file_list(files_dir, prefix, except_files):
+            rt = []
+            for filename in os.listdir(files_dir):
+                if not filename in except_files:
+                    if os.path.isdir(os.path.join(files_dir, filename)):
+                        rt += get_file_list(os.path.join(files_dir, filename), os.path.join(prefix, filename), except_files)
+                    else:
+                        rt.append(os.path.join(prefix, filename))
+            return rt
+
         if not os.path.exists(graders_dir):
             logger.warning('Grader folder was not found')
             graders_list = []
         else:
-            graders_list = \
-                [filename
-                 for filename in os.listdir(graders_dir)
-                 if filename != 'manager.cpp']
+            graders_list = get_file_list(graders_dir, '', {'manager.cpp'})
         for grader_name in graders_list:
             grader_src = os.path.join(graders_dir, grader_name)
             digest = self.file_cacher.put_file_from_path(
                 grader_src,
                 "Manager for task %s" % name)
+            grader_name = os.path.basename(grader_name)
             if data['type'] == 'Communication' \
                     and os.path.splitext(grader_name)[0] == 'grader':
                 grader_name = 'stub' + os.path.splitext(grader_name)[1]
@@ -345,10 +361,10 @@ class TpsTaskLoader(TaskLoader):
             output_digest = self.file_cacher.put_file_from_path(
                 outfile,
                 "Output %s for task %s" % (codename, name))
-            if codename.split('-')[0] != '0':   # We don't need sample testcase in CMS
-                testcase = Testcase(codename, True,
-                                    input_digest, output_digest)
-                args["testcases"][codename] = testcase
+            # if codename.split('-')[0] != '0':   # We don't need sample testcase in CMS
+            testcase = Testcase(codename, True,
+                                input_digest, output_digest)
+            args["testcases"][codename] = testcase
 
         # Score Type
         subtasks_json_src = os.path.join(self.path, 'subtasks.json')
@@ -389,7 +405,7 @@ class TpsTaskLoader(TaskLoader):
                     testcases = subtask_data["regex"]
                 optional_name = "Subtask %d" % subtask_no
                 if subtask_no == 0 and score == 0:
-                    continue   # We don't need sample testcase in CMS
+                #     continue   # We don't need sample testcase in CMS
                     optional_name = "Samples"
                 if add_optional_name:
                     parsed_data.append([score, testcases, optional_name])
