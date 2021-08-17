@@ -192,7 +192,7 @@ class TpsTaskLoader(TaskLoader):
         if data["type"] == 'OutputOnly':
             args["submission_format"] = list()
             for codename in testcase_codenames:
-                args["submission_format"].append("%s.out" % codename)
+                args["submission_format"].append("output_%s.txt" % codename)
         elif data["type"] == 'Notice':
             args["submission_format"] = list()
         else:
@@ -397,7 +397,10 @@ class TpsTaskLoader(TaskLoader):
                 subtask_no += 1
                 score = int(subtask_data["score"])
                 if use_mapping:
-                    codenames = sorted(list(set('^' + testcase.split('-')[0] + '\\-' for testcase in mapping_data[subtask])))
+                    if data["type"] == 'OutputOnly':
+                        codenames = sorted(list(set('^' + testcase.split('-')[0] for testcase in mapping_data[subtask])))
+                    else:
+                        codenames = sorted(list(set('^' + testcase.split('-')[0] + '\\-' for testcase in mapping_data[subtask])))
                     testcases = "|".join(codenames)
                     if testcases == '':
                         testcases = '|NO_TESTCASES_AVAILABLE'
