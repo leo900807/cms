@@ -1,4 +1,5 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 # Contest Management System - http://cms-dev.github.io/
 # Copyright © 2015-2018 Stefano Maggiolo <s.maggiolo@gmail.com>
@@ -18,14 +19,22 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 """Admin-related handlers for AWS.
-
 """
+
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
+from future.builtins.disabled import *  # noqa
+from future.builtins import *  # noqa
+from six import iterkeys
 
 import logging
 
 from cms.db import Admin
 from cmscommon.crypto import hash_password
 from cmscommon.datetime import make_datetime
+
 from .base import BaseHandler, SimpleHandler, require_permission
 
 
@@ -34,12 +43,9 @@ logger = logging.getLogger(__name__)
 
 def _admin_attrs(handler):
     """Return a dictionary with the arguments to define an admin
-
     handler (BaseHandler): the handler receiving the arguments.
-
     return (dict): a dictionary with the arguments to define an admin,
         based on those passed to handler.
-
     """
     attrs = {}
 
@@ -90,7 +96,6 @@ class AddAdminHandler(SimpleHandler("add_admin.html", permission_all=True)):
 
 class AdminsHandler(BaseHandler):
     """Page to see all admins.
-
     """
     @require_permission(BaseHandler.AUTHENTICATED)
     def get(self):
@@ -103,7 +108,6 @@ class AdminsHandler(BaseHandler):
 
 class AdminHandler(BaseHandler):
     """Admin handler, with a POST method to edit the admin.
-
     """
 
     # Fields that an admin can change themself, regardless of the
@@ -140,7 +144,7 @@ class AdminHandler(BaseHandler):
         # allowed because they are editing their own details, they can
         # only change a subset of the fields.
         if not self.current_user.permission_all:
-            for key in new_attrs.keys():
+            for key in iterkeys(new_attrs):
                 if key not in AdminHandler.SELF_MODIFIABLE_FIELDS:
                     del new_attrs[key]
         admin.set_attrs(new_attrs)
