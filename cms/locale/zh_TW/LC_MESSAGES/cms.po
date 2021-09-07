@@ -22,11 +22,22 @@ msgstr "(空)"
 msgid "Compilation succeeded"
 msgstr "編譯成功"
 
+msgid "Your submission successfully compiled to an executable."
+msgstr "你的傳送已成功編譯為執行檔"
+
 msgid "Compilation failed"
 msgstr "編譯失敗"
 
+msgid "Your submission did not compile correctly."
+msgstr "你的傳送無法被正確的編譯"
+
 msgid "Compilation timed out"
 msgstr "編譯逾時"
+
+msgid ""
+"Your submission exceeded the time limit while compiling. This might be "
+"caused by an excessive use of C++ templates, for example."
+msgstr "你的傳送在編譯時超過時間限制，其中一個可能是你使用過量的 C++ 樣板"
 
 #, python-format
 msgid ""
@@ -34,8 +45,40 @@ msgid ""
 "limits)"
 msgstr "編譯程式因記憶體違規存取而強制終止 (信號 %s)"
 
+msgid ""
+"Your submission was killed with the specified signal. Among other things, "
+"this might be caused by exceeding the memory limit for the compilation, "
+"and in turn by an excessive use of C++ templates, for example."
+msgstr ""
+"你的傳送因指定的錯誤信號而強制中止。除了上述問題外，在編譯時期使用太多記憶體，"
+"例如使用過量的 C++ 樣板，也可能導致此結果"
+
 msgid "Execution timed out"
 msgstr "超過時間限制"
+
+msgid "Your submission used too much CPU time."
+msgstr "你的傳送花費太多的時間"
+
+msgid "Execution timed out (wall clock limit exceeded)"
+msgstr "超過時間限制（超過實體時間限制）"
+
+msgid ""
+"Your submission used too much total time. This might be triggered by undefined code, "
+"or buffer overflow, for example. Note that in this case the CPU time visible in the "
+"submission details might be much smaller than the time limit."
+msgstr ""
+"你的傳送花費了太多的實際時間。可能是觸發未定義的錯誤信號或是緩衝區溢出導致，"
+"請注意，若是這種情況下，在傳送詳細資料頁面所看到的執行時間可能會小於時間限制"
+
+msgid "Execution killed (could be triggered by violating memory limits)"
+msgstr "執行時因記憶體違規存取而強制中止"
+
+msgid ""
+"The evaluation was killed by a signal. Among other things, this might be caused by "
+"exceeding the memory limit. Note that if this is the reason, the memory usage visible "
+"in the submission details is the usage before the allocation that caused the signal."
+msgstr "評測因錯誤信號而強制中止。除了上述問題外，超過記憶體限制也可能導致此結果，"
+"請注意，若是這種情況下，則在傳送詳細資料頁面所看到的記憶體使用量為造成此信號前的使用量"
 
 #, python-format
 msgid ""
@@ -46,15 +89,33 @@ msgstr "測試程式因記憶體違規存取而強制終止 (信號 %s)"
 msgid "Execution failed because the return code was nonzero"
 msgstr "執行失敗: 程式回傳值非零"
 
+msgid "Your submission failed because it exited with a return code different from 0."
+msgstr "你的傳送因執行檔回傳值非 0 導致執行失敗"
+
 msgid "Output is correct"
 msgstr "輸出正確"
+
+msgid "Your submission ran and gave the correct answer"
+msgstr "你的傳送已執行並輸出正確的答案"
+
+msgid "Output is partially correct"
+msgstr "部分正確"
+
+msgid "Your submission ran and gave the partially correct answer"
+msgstr "你的傳送已執行並輸出部分正確的答案"
 
 msgid "Output isn't correct"
 msgstr "輸出錯誤"
 
+msgid "Your submission ran, but gave the wrong answer"
+msgstr "你的傳送已執行，但是輸出錯誤的答案"
+
 #, python-format
 msgid "Evaluation didn't produce file %s"
 msgstr "執行後並未產生檔案 %s"
+
+msgid "Your submission ran, but did not write on the correct output file"
+msgstr "你的傳送已執行，但是沒有輸出到正確的檔案中"
 
 #, python-format
 msgid "Subtask %(index)s"
@@ -427,6 +488,21 @@ msgstr "評測頁面"
 msgid "Documentation"
 msgstr "參考資料"
 
+msgid "Programming languages and libraries"
+msgstr "程式語言與程式庫"
+
+msgid "Submission details for compilation"
+msgstr "傳送詳細資料－編譯結果"
+
+msgid "Submission details for evaluation"
+msgstr "傳送詳細資料－執行結果"
+
+msgid "Message"
+msgstr "訊息"
+
+msgid "Explanation"
+msgstr "說明"
+
 msgid "Testing"
 msgstr "線上測試"
 
@@ -712,6 +788,9 @@ msgstr "%(name)s (%(short_name)s) <small>評測頁面</small>"
 
 msgid "Submit a solution"
 msgstr "傳送作答"
+
+msgid "You may submit any subset of outputs in a single submission."
+msgstr "你可以在一次傳送中傳送任意數量的檔案"
 
 msgid "Submit"
 msgstr "傳送"
