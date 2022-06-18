@@ -15,9 +15,6 @@
 <h3>C++</h3>
 
 <p><a href="{{ url("stl", "en", "index.html") }}">{% trans %}Standard Template Library{% endtrans %}</a></p>
-<p><a href="http://www.cplusplus.com/reference/">Cplusplus Reference</a></p>
-<p><a href="http://sites.google.com/site/pcshic/">板橋高中資訊社</a></p>
-<p><a href="https://hackmd.io/LU-6dGiYToCsQveEv90Ubw">校內賽教學文件</a></p>
 {% endif %}
 
 {% if contest.languages|map("to_language")|map(attribute="source_extensions")|any("contains", ".java") %}
