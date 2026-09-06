@@ -87,7 +87,7 @@ class Contest(Base):
     languages = Column(
         ARRAY(String),
         nullable=False,
-        default=["C++14 / g++", "C++17 / g++", "C++20 / g++", "Python3 / CPython"])
+        default=["C++20 / g++", "Python3 / CPython"])
 
     # Whether contestants allowed to download their submissions.
     submissions_download_allowed = Column(
@@ -105,7 +105,7 @@ class Contest(Base):
     allow_user_tests = Column(
         Boolean,
         nullable=False,
-        default=True)
+        default=False)
 
     # Whether to prevent hidden participations to log in.
     block_hidden_participations = Column(
@@ -125,7 +125,7 @@ class Contest(Base):
     ip_restriction = Column(
         Boolean,
         nullable=False,
-        default=True)
+        default=False)
 
     # Whether to automatically log in users connecting from an IP
     # address specified in the ip field of a participation to this
@@ -150,7 +150,7 @@ class Contest(Base):
         Enum(TOKEN_MODE_DISABLED, TOKEN_MODE_FINITE, TOKEN_MODE_INFINITE,
              name="token_mode"),
         nullable=False,
-        default=TOKEN_MODE_INFINITE)
+        default=TOKEN_MODE_DISABLED)
 
     # The maximum number of tokens a contestant is allowed to use
     # during the whole contest (on all tasks).
@@ -258,7 +258,7 @@ class Contest(Base):
         Integer,
         CheckConstraint("score_precision >= 0"),
         nullable=False,
-        default=0)
+        default=2)
 
     # These one-to-many relationships are the reversed directions of
     # the ones defined in the "child" classes using foreign keys.
