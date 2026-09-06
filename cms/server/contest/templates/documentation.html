@@ -14,7 +14,8 @@
 {% if contest.languages|map("to_language")|map(attribute="source_extensions")|any("contains", ".cpp") %}
 <h3>C++</h3>
 
-<p><a href="{{ url("stl", "en", "index.html") }}">{% trans %}Standard Template Library{% endtrans %}</a></p>
+<p><a target="_blank" href="{{ url("stl", "en", "index.html") }}">{% trans %}Standard Template Library{% endtrans %}</a></p>
+<p><a target="_blank" href="http://www.cplusplus.com/reference/">Cplusplus Reference</a></p>
 {% endif %}
 
 {% if contest.languages|map("to_language")|map(attribute="source_extensions")|any("contains", ".java") %}
@@ -23,6 +24,24 @@
 <p>{% trans %}The main Java class of the solution should have exactly the same name as the task.{% endtrans %}</p>
 {% endif %}
 
+<p><a target="_blank" href="http://sites.google.com/site/pcshic/">板橋高中資訊社</a></p>
+<p><a target="_blank" href="https://hackmd.io/@pcshoi/CMS-Intro">校內賽教學文件</a></p>
+<p><a id="scoreboard-link" target="_blank" href="#">計分板</a></p>
+
+<script>
+    let host = window.location.host;
+    let protocol = window.location.protocol;
+    let link = host + '#';
+
+    if (host == '192.168.8.110:8888') {
+        link = '192.168.8.110:8890';
+    } else if (host == 'cms.pcshic.club') {
+        link = 'cms-ranking.pcshic.club';
+    }
+
+    scoreboardLink = document.getElementById('scoreboard-link');
+    scoreboardLink.href = protocol + '//' + link;
+</script>
 
 <h2>{% trans %}Submission details for compilation{% endtrans %}</h2>
 

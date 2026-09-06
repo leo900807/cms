@@ -110,8 +110,12 @@ class FileServerMiddleware(object):
         response.status_code = 200
         response.mimetype = mimetype
         if filename is not None:
-            response.headers.add(
-                "Content-Disposition", "attachment", filename=filename)
+            if request.args.get("inline") == "true":
+                response.headers.add(
+                    "Content-Disposition", "inline", filename=filename)
+            else:
+                response.headers.add(
+                    "Content-Disposition", "attachment", filename=filename)
         response.set_etag(digest)
         response.cache_control.max_age = SECONDS_IN_A_YEAR
         response.cache_control.private = True

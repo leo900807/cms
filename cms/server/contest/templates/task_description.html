@@ -26,6 +26,7 @@
     <div class="span9">
     {% for lang_code in task.statements %}
         <a href="{{ contest_url("tasks", task.name, "statements", lang_code) }}" class="btn btn-large btn-success">{% trans %}Download task statement{% endtrans %}</a>
+        <a href="{{ contest_url("tasks", task.name, "statements", lang_code) }}?inline=true" target="_blank" class="btn btn-large">{% trans %}View task statement{% endtrans %}</a>
     {% endfor %}
     </div>
 </div>
